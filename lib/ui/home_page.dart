@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -25,11 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-
-      ),
+      appBar: _createAppBar(),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -51,9 +48,6 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
@@ -65,6 +59,40 @@ class _HomePageState extends State<HomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  _createAppBar() {
+    return PreferredSize(
+        preferredSize: Size.fromHeight(150.0),
+        child: AppBar(
+          backgroundColor: Colors.white,
+          flexibleSpace: new Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              _createTopAppBar(),
+              Text("fwsdfwaer"),
+            ],
+          ),
+        ));
+  }
+
+  _createTopAppBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[
+        _createLogo(),
+        Text("ljbluybyb"),
+      ],
+    );
+  }
+
+  _createLogo() {
+    return Row(
+      children: <Widget>[
+        Image.network('https://drive.google.com/file/d/1iAfWqFn-8To31n-Z7BxwM6Z5AH975y78'),
+        Text("vxascv"),
+      ],
     );
   }
 }
