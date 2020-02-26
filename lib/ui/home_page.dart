@@ -1,5 +1,8 @@
+import 'package:animated_text_kit/animated_text_kit.dart'; //https://flutterawesome.com/a-flutter-package-to-create-cool-and-beautiful-text-animations/
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
+import 'home_tab.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -9,53 +12,21 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  TabController tabController;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void initState() {
+    tabController = new TabController(length: 5, vsync: this);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _createAppBar(),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
+      body: _createBody(),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -64,14 +35,15 @@ class _HomePageState extends State<HomePage> {
 
   _createAppBar() {
     return PreferredSize(
-        preferredSize: Size.fromHeight(150.0),
+        preferredSize: Size.fromHeight(146.0),
         child: AppBar(
+          elevation: 0,
           backgroundColor: Colors.white,
           flexibleSpace: new Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               _createTopAppBar(),
-              Text("fwsdfwaer"),
+              _createMenu(),
             ],
           ),
         ));
@@ -82,17 +54,119 @@ class _HomePageState extends State<HomePage> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         _createLogo(),
-        Text("ljbluybyb"),
+        _createContact(),
       ],
     );
   }
 
   _createLogo() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Image.network('https://drive.google.com/file/d/1iAfWqFn-8To31n-Z7BxwM6Z5AH975y78'),
-        Text("vxascv"),
+        Image.asset(
+          "assets/logo.png",
+          height: 70.0,
+        ),
+        RotateAnimatedTextKit(
+          onTap: () {
+            print("Tap Event");
+          },
+          text: ["VASYL CONSTRACTION  ", "CARPENTER JOB  "],
+          textStyle: TextStyle(
+              color: Colors.blue[400],
+              fontWeight: FontWeight.w900,
+              fontStyle: FontStyle.italic,
+              fontFamily: 'Open Sans',
+              fontSize: 30),
+        ),
       ],
     );
+  }
+
+  _createContact() {
+    return Column(
+      children: <Widget>[
+        _createRequestEstimate(),
+        SizedBox(height: 10),
+        _createLocationProne(),
+      ],
+    );
+  }
+
+  _createRequestEstimate() {
+    return RaisedButton(
+      shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(18.0),
+          side: BorderSide(color: Colors.blue[400])),
+      onPressed: () {},
+      color: Colors.blue[400],
+      textColor: Colors.white,
+      child: Text("Request free estimate".toUpperCase(),
+          style: TextStyle(fontSize: 18)),
+    );
+  }
+
+  _createLocationProne() {
+    return Row(
+      children: <Widget>[
+        Icon(
+          Icons.location_on,
+          color: Colors.grey,
+          size: 30,
+        ),
+        Text(
+          "Connecticut",
+          style: TextStyle(fontSize: 20),
+        ),
+        SizedBox(
+          width: 100,
+        ),
+        Icon(
+          Icons.phone,
+          color: Colors.grey,
+          size: 30,
+        ),
+        Text(
+          "(203) 832 - 0876",
+          style: TextStyle(fontSize: 20),
+        ),
+      ],
+    );
+  }
+
+  _createMenu() {
+    return getTabBar();
+  }
+
+  Widget getTabBar() {
+    return new Material(
+        color: Colors.blue[400],
+        child: TabBar(
+            indicator: BoxDecoration(
+              color: Colors.blue[900],
+            ),
+            indicatorWeight: 0,
+            controller: tabController,
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.grey[350],
+            labelStyle: TextStyle(fontSize: 20),
+            tabs: [
+              Tab(text: "Home"),
+              Tab(text: "Services"),
+              Tab(text: "About"),
+              Tab(text: "Request Free Estimate"),
+              Tab(text: "Contact"),
+            ]));
+  }
+
+  _createBody() {
+    return TabBarView(controller: tabController, children: <Widget>[
+      HomeTab(),
+      Container(color: Colors.green),
+      Container(color: Colors.blue),
+      Container(color: Colors.yellow),
+      Container(color: Colors.pink)
+    ]);
   }
 }
