@@ -8,12 +8,12 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Vasyl Constraction',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: Colors.pink[800],
       ),
-      home: HomePage(title: 'Flutter Demo Home Page'),
+      home: HomePage(),
     );
   }
 }

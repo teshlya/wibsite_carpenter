@@ -1,12 +1,14 @@
 import 'package:animated_text_kit/animated_text_kit.dart'; //https://flutterawesome.com/a-flutter-package-to-create-cool-and-beautiful-text-animations/
+import 'package:carpenter/ui/services_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'about_tab.dart';
+import 'contact_tab.dart';
 import 'home_tab.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-  final String title;
+  HomePage({Key key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -26,10 +28,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Scaffold(
       appBar: _createAppBar(),
       body: _createBody(),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
@@ -37,26 +35,30 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return PreferredSize(
         preferredSize: Size.fromHeight(146.0),
         child: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          flexibleSpace: new Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              _createTopAppBar(),
-              _createMenu(),
-            ],
-          ),
-        ));
+            elevation: 0,
+            backgroundColor: Colors.white,
+            flexibleSpace: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                _createTopAppBar(),
+                _createMenu(),
+              ],
+            )));
   }
 
   _createTopAppBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        _createLogo(),
-        _createContact(),
-      ],
-    );
+    return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                _createLogo(),
+                SizedBox(width: 200),
+                _createContact(),
+              ],
+            )));
   }
 
   _createLogo() {
@@ -72,7 +74,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           onTap: () {
             print("Tap Event");
           },
-          text: ["VASYL CONSTRACTION  ", "CARPENTER JOB  "],
+          text: ["VASYL CONSTRACTION  ", "FINISH & TRIM  "],
           textStyle: TextStyle(
               color: Colors.blue[400],
               fontWeight: FontWeight.w900,
@@ -136,13 +138,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   _createMenu() {
-    return getTabBar();
+    return Container(
+        width: double.infinity,
+        color: Colors.blue[400],
+        alignment: Alignment.center,
+        child: getTabBar());
   }
 
   Widget getTabBar() {
-    return new Material(
+    return Material(
         color: Colors.blue[400],
         child: TabBar(
+            isScrollable: true,
             indicator: BoxDecoration(
               color: Colors.blue[900],
             ),
@@ -152,21 +159,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             unselectedLabelColor: Colors.grey[350],
             labelStyle: TextStyle(fontSize: 20),
             tabs: [
-              Tab(text: "Home"),
-              Tab(text: "Services"),
-              Tab(text: "About"),
-              Tab(text: "Request Free Estimate"),
-              Tab(text: "Contact"),
+              Container(width: 210, child: Tab(text: "Home")),
+              Container(width: 210, child: Tab(text: "Services")),
+              Container(width: 210, child: Tab(text: "About")),
+              Container(width: 210, child: Tab(text: "Request Free Estimate")),
+              Container(width: 210, child: Tab(text: "Contact")),
             ]));
   }
 
   _createBody() {
     return TabBarView(controller: tabController, children: <Widget>[
       HomeTab(),
-      Container(color: Colors.green),
-      Container(color: Colors.blue),
+      ServicesTab(),
+      AboutTab(),
       Container(color: Colors.yellow),
-      Container(color: Colors.pink)
+      ContactTab()
     ]);
   }
 }
